@@ -2,7 +2,7 @@ export default function Start()
 {
     return(
         <>
-        <h1>Home Page</h1>
+        <h1>start Page</h1>
         </>
     )
 }

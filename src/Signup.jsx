@@ -1,8 +1,10 @@
 import React, { useEffect, useState,useContext } from "react";
 import { useForm } from "react-hook-form";
 import { globalData } from "./App";
+import {useNavigate} from 'react-router-dom'
 export default function Signup() {
   const {data,setData}=useContext(globalData);
+  const nav=useNavigate();
   const {
     register,
     handleSubmit,
@@ -13,6 +15,7 @@ export default function Signup() {
     // console.log(errors.password.message);
     
     setData(user);
+    nav("/login")
   };
 
   return (
