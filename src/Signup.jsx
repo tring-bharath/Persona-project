@@ -18,7 +18,8 @@ export default function Signup() {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="form d-flex flex-column container col-4 p-5 mt-5 rounded bg-warning">
-			<label>Name:</label>
+			<h3 className="text-center">SignUp</h3>
+			<label className="mt-3">Name:</label>
 			<input className="form-control border-success" {...register("name", { required: "Name is required" })} />
 			<p>{errors.name?.message}</p>
 			<label>Email:</label>

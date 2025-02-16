@@ -20,7 +20,7 @@ export default function Header()
                 </div>
                 ):(
                     <div className='d-flex justify-content-between align-items-center'>
-                    <Link to={'/'}><button className='mx-5 rounded px-4 py-1 bg-primary' >Logout</button></Link>
+                    <Link to={'/'}><button className='mx-5 rounded px-4 py-1 bg-primary' onClick={()=>setUser(null)}>Logout</button></Link>
                 </div>
                 )
             }

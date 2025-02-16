@@ -1,28 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Card from "./Card";
+import './App.css'
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Outlet, useNavigate,Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { cardsContext } from "./App";
 export default function Home() {
-  const nav =useNavigate();
-  
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      profilePhoto: "https://via.placeholder.com/100",
-      address: "123 Main St, City",
-    },
-  ]);
 
+  const nav = useNavigate();
+  const { cards, setCards,newCard1,setNewCard,index,setIndex } = useContext(cardsContext);
+  
   const addNewCard = () => {
-    const newCard = {
-      id: cards.length + 1,
-      name: `User ${cards.length + 1}`,
-      profilePhoto: "https://via.placeholder.com/100",
-      address: "New Address",
-    };
-    setCards([...cards, newCard]);
+    const id = cards.length + 1;
+    setNewCard();//{id:"",Quote:"",description:"",attitude:"",points:"",jobs:"",activities:""}
+    nav(`card${id}`);
   };
+
+  const editCard=(i)=>
+  {
+    setNewCard(cards[i]);
+    setIndex(i);
+    nav( `card${i}`)
+  }
 
   return (
     <div className="container mt-4">
@@ -31,14 +29,13 @@ export default function Home() {
         Add New
       </button>
       <div className="row">
-        {cards.map((card) => (
-          // <Link to={'card'}>
-          <div key={card.id} className="col-md-4" onClick={()=>nav('card')}>
-            <Card name={card.name} profilePhoto={card.profilePhoto} address={card.address} />
+        {cards.map((card,i) => (
+          <div key={i} className="cards bg-warning" onClick={()=>editCard(i)}>
+            <img src={card.image} style={{ width: "200px", height: "150px" }} />
+            <h5 className="card-title text-center">{card.Quote}</h5>
+            <p className="card-text">{card.description}</p>
           </div>
-          // </Link>
         ))}
-        {/* <Outlet/> */}
       </div>
     </div>
   );

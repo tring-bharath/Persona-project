@@ -1,27 +1,37 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { globalData } from "./App";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+
 export default function Login() {
-    const { data, setData,user,setUser } = useContext(globalData);
+    const { users, setData, setUser } = useContext(globalData);
     const nav = useNavigate();
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const onSubmit = () => {
-        console.log(data.name);
-        setUser(true);
-        nav(`/${data.name}`);
+
+    const onSubmit = (formData) => {
+        const foundUser = users.find(user => user.email === formData.email && user.password === formData.password);
+
+        if (foundUser) {
+            setData(foundUser);
+            setUser(true);
+            nav(`/${foundUser.name}`);
+        } else {
+            alert("Invalid credentials! Please check your email and password.");
+        }
     };
 
     return (
         <form className="form d-flex flex-column container col-4 p-5 mt-5 rounded bg-warning" onSubmit={handleSubmit(onSubmit)}>
-
-            <label>Email:</label>
-            <input className="form-control "
+            <h3 className="text-center">Login</h3>
+            <label className="mt-3">Email:</label>
+            <input
+                className="form-control"
                 type="email"
                 {...register("email", {
                     required: "Email is required",
@@ -31,16 +41,19 @@ export default function Login() {
                     },
                 })}
             />
-            <p>{errors.email?.message}</p>
-            <label>Password</label>
-            <input className="form-control "
+            <p className="text-danger">{errors.email?.message}</p>
+            <label>Password:</label>
+            <input
+                className="form-control"
                 type="password"
                 {...register("password", {
                     required: "Enter password",
-                    validate: (value) => value === data.password || "Does not Match"
-                },)} />
-            <p>{errors.password?.message}</p>
-            <button className="p-2 rounded bg-primary mt-4" type="submit">Submit</button>
+                })}
+            />
+            <p className="text-danger">{errors.password?.message}</p>
+            <button className="p-2 rounded bg-primary mt-4 text-white" type="submit">
+                Submit
+            </button>
         </form>
     );
 }

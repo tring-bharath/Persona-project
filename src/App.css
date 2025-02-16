@@ -3,3 +3,18 @@
     padding: 0px;
     margin: 0px;
 }
+.card-body
+{
+    padding: 0px !important;
+    margin:0px !important;
+}
+img{
+    padding: 0px !important;
+    margin:0px !important;
+}
+.cards{
+    padding: 0px;
+    margin: 20px;
+    width: 200px;
+    height:200px
+}
