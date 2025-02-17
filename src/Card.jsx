@@ -3,7 +3,7 @@ import { cardsContext } from "./App";
 import { useNavigate, useParams } from "react-router-dom";
 export default function Card({ id }) {
     const { cards, setCards,userName,newCard1,setNewCard,index,setIndex } = useContext(cardsContext);
-    const [image1,setImage]=useState();
+    const [image,setImage]=useState();
     const nav=useNavigate();
     const handleImage=(e)=>{
         console.log("log from image");
@@ -11,6 +11,8 @@ export default function Card({ id }) {
         const file=e.target.files[0]
         if(file){
             const imageUrl=URL.createObjectURL(file)
+            console.log(imageUrl);
+            setNewCard({ ...newCard1, image:imageUrl});
             setImage(imageUrl)
         }
     }
@@ -43,7 +45,7 @@ export default function Card({ id }) {
     };
 
     const handleDelete=()=>{
-        const newCards=cards.filter((card)=>card.id!==id);
+        const newCards=cards.filter((card,i)=>i!==index);
         setCards(newCards);
         nav(`/${userName}`)
     }
