@@ -12,7 +12,7 @@ export const cardsContext=createContext();
 export const globalData=createContext();
 export default function App()
 {
-  const [cards, setCards] = useState([{id: 1,name: "Bharath"}]);
+  const [cards, setCards] = useState([]);
   const [data,setData]=useState({name:'bharath',email:'acs@gmail.com',password:'acs@gmail.com'});
   const [users,setUsers]=useState([{name:'bharath',email:'acs@gmail.com',password:'acs@gmail.com'}]);
   const [user,setUser]=useState(null);
@@ -43,7 +43,6 @@ export default function App()
       <Route path='/:userName' element={<Home/>}/>
       <Route path="/:userName/:cardId" element={<Card/>}/>
       
-      {/* </Route> */}
       </Route>
     </Routes>
     </BrowserRouter>

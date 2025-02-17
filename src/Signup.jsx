@@ -26,13 +26,14 @@ export default function Signup() {
 			<input className="form-control border-success"
 				name="email"
 				type="email"
-				{...register("email", {
+				{	...register("email", {
 					required: "Email is required",
 					pattern: {
 						value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
 						message: "Invalid email format"
 					}
-				})}
+				})
+				}
 			/>
 			<p>{errors.email?.message}</p>
 			<label>Password:</label>

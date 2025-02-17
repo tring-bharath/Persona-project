@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 export default function Login() {
     const { users, setData, setUser } = useContext(globalData);
     const nav = useNavigate();
-
     const {
         register,
         handleSubmit,

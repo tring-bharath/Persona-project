@@ -31,9 +31,9 @@ export default function Home() {
       <div className="row">
         {cards.map((card,i) => (
           <div key={i} className="cards bg-warning" onClick={()=>editCard(i)}>
-            <img src={card.image} style={{ width: "200px", height: "150px" }} />
-            <h5 className="card-title text-center">{card.Quote}</h5>
-            <p className="card-text">{card.description}</p>
+            <img src={card.image} style={{ width: "300px", height: "200px" }} />
+            <h5 className="card-title text-center m-2">{card.Quote}</h5>
+            <p className="card-text px-2">{card.description}</p>
           </div>
         ))}
       </div>
