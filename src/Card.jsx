@@ -55,20 +55,32 @@ export default function Card({ id }) {
         nav(`/${userName}`)
     }
     return (
-        <div className="card shadow p-3 mb-3">
-            <input type="file" accept="image/*" onChange={handleImage}/>
+        <div className="card shadowp-3 d-flex">
+            <input className=" p-3 " type="file" accept="image/*" onChange={handleImage}/>
+            <div className="form-container d-flex flex-column col col-5">
             <label>Notable Quote</label>
-            <input type="text" value={newCard1?.Quote} placeholder="Enter a quote that identifies the persona" name="Quote" onChange={handleChange} />
+            <input className=" p-3 " type="text" value={newCard1?.Quote} placeholder="Enter a quote that identifies the persona" name="Quote" onChange={handleChange} />
+            </div>
+            <div className="form-container d-flex flex-column col col-5">
             <label>Description</label>
-            <input type="text" value={newCard1?.description} placeholder="Enter a general description/bio about the persona" name="description" onChange={handleChange} />
+            <input className=" p-3 " type="text" value={newCard1?.description} placeholder="Enter a general description/bio about the persona" name="description" onChange={handleChange} />
+            </div>
+            <div className="form-container d-flex flex-column col col-5">
             <label>Attitude/Motivations</label>
-            <input type="text" value={newCard1?.attitude} placeholder="What drives incentives the persona to reach desired goals? what mindset does the persona have?" name="attitude" onChange={handleChange} />
+            <input className=" p-3 " type="text" value={newCard1?.attitude} placeholder="What drives incentives the persona to reach desired goals? what mindset does the persona have?" name="attitude" onChange={handleChange} />
+            </div>
+            <div className="form-container d-flex flex-column col col-5">
             <label>Plain Points</label>
-            <input type="text" value={newCard1?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={handleChange} />
+            <input className=" p-3 " type="text" value={newCard1?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={handleChange} />
+            </div>
+            <div className="form-container d-flex flex-column col col-5">
             <label>Jobs/Needs</label>
-            <input type="text" value={newCard1?.jobs} placeholder="What are the persona's functional social and emotional needs to be successful at their jobs" name="jobs" onChange={handleChange} />
+            <input className=" p-3 " type="text" value={newCard1?.jobs} placeholder="What are the persona's functional social and emotional needs to be successful at their jobs" name="jobs" onChange={handleChange} />
+            </div>
+            <div className="form-container d-flex flex-column col col-5">
             <label>Activities</label>
-            <input type="text" value={newCard1?.activities} placeholder="What does the persona like to do in hteir free time?" name="activities" onChange={handleChange} />
+            <input className=" p-3 " type="text" value={newCard1?.activities} placeholder="What does the persona like to do in hteir free time?" name="activities" onChange={handleChange} />
+            </div>
             <footer className="d-flex justify-content-between ms-3">
             <button className="delete text-danger" onClick={handleDelete}>DELETE</button>
             <div className="right-footer mx-3 d-flex">
