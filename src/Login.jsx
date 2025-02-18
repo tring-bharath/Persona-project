@@ -20,8 +20,7 @@ export default function Login() {
         register,
         handleSubmit,
         formState: { errors },
-        resolver
-    } = useForm();
+    } = useForm({resolver: yupResolver(schema)});
 
     const onSubmit = (formData) => {
         const foundUser = users.find(user => user.email === formData.email && user.password === formData.password);
@@ -43,22 +42,14 @@ export default function Login() {
             <input autocomplete="off"
                 className="form-control"
                 type="email"
-                {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                        message: "Invalid email format",
-                    },
-                })}
+                {...register("email")}
             />
             <p className="text-danger">{errors.email?.message}</p>
             <label>Password:</label>
             <input  autocomplete="off"
                 className="form-control"
                 type="password"
-                {...register("password", {
-                    required: "Enter password",
-                })}
+                {...register("password")}
             />
             <p className="text-danger">{errors.password?.message}</p>
             <button className="p-2 bg-primary mt-4 text-white" type="submit">
