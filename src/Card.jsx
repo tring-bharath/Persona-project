@@ -21,13 +21,17 @@ export default function Card() {
         
     }
     //{id:"",Quote:"",description:"",attitude:"",points:"",jobs:"",activities:""}
-
     const handleChange = (e) => {
         setNewCard({ ...newCard1, [e.target.name]: e.target.value });
         console.log(newCard1);
 
     };
     const handleAddCard = () => {
+        if(newCard1.quote==""&&newCard1.description==""&&newCard1.jobs==""&&newCard1.attitude==""&&newCard1.activities==""&&newCard1.points=="")
+        {
+            toast.error("Fill the details");
+            return;
+        }
         if (index === null) {
             setCards([...cards, newCard1]);
             setIndex(null);
