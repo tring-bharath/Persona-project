@@ -2,6 +2,21 @@
 {
     padding: 0px;
     margin: 0px;
+    font-family: 'Poppins', sans-serif;
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+.image-label
+{
+    width: 110px;
+}
+.all
+{
+    height: 100vh;
+    background-color: rgb(209, 207, 207);
+}
+textarea
+{
+    border: none;
 }
 .card-body
 {
@@ -16,7 +31,23 @@ img{
     padding: 0px;
     margin: 20px;
     width: 300px;
-    height:300px
+    height:300px;
+    cursor:pointer;
+    background-color: #f1eeee ;
+    border-radius: 0px 0px 5px 5px;
+}
+.card-text,.card-title
+{
+    white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.btn
+{
+    color: aqua;
+}
+.cards:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .card{
     display: flex;
@@ -33,4 +64,13 @@ img{
     height: 40vh;
     background-color: #f5f5f5;
     overflow:hidden;
+}
+.header
+{
+    background-color: aqua;
+}
+.form
+{
+    box-shadow: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
 }

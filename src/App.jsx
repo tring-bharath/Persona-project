@@ -8,6 +8,8 @@ import Home from "./Home";
 import Header from "./Header";
 import Protect from "./Protect"; 
 import Card from "./Card";
+import "@fontsource/poppins";
+import { ToastContainer } from "react-toastify";
 export const cardsContext=createContext();
 export const globalData=createContext();
 export default function App()
@@ -29,11 +31,12 @@ export default function App()
     console.log(cards);
   },[cards])
   return(
-    <>
-    <globalData.Provider value={{data,setData,user,setUser,users,setUsers}}>
+    <div className="all">
+    <globalData.Provider value={{data,setData,userName,user,setUser,users,setUsers}}>
     <cardsContext.Provider value={{cards,setCards,userName,newCard1,setNewCard,index,setIndex}}>
     <BrowserRouter>
     <Header/>
+    <ToastContainer/>
     <Routes>
       <Route path='/' element={<Start/>}/>
       <Route path='/login' element={<Login/>}/>
@@ -42,12 +45,12 @@ export default function App()
       
       <Route path='/:userName' element={<Home/>}/>
       <Route path="/:userName/:cardId" element={<Card/>}/>
-      
+
       </Route>
     </Routes>
     </BrowserRouter>
     </cardsContext.Provider>
     </globalData.Provider>
-    </>
+    </div>
   )
 }

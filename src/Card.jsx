@@ -1,98 +1,102 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { cardsContext } from "./App";
-import { useNavigate, useParams } from "react-router-dom";
-export default function Card({ id }) {
-    const { cards, setCards,userName,newCard1,setNewCard,index,setIndex } = useContext(cardsContext);
-    const [image,setImage]=useState();
-    const nav=useNavigate();
-    const handleImage=(e)=>{
-        console.log("log from image");
-        
-        const file=e.target.files[0]
-        if(file){
-            const imageUrl=URL.createObjectURL(file)
-            setNewCard({ ...newCard1, image:imageUrl});
-            setImage(imageUrl)
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+export default function Card() {
+    const { cards, setCards, userName, newCard1, setNewCard, index, setIndex } = useContext(cardsContext);
+    const nav = useNavigate();
+    const handleImage = (e) => {
+        const file = e.target.files[0]
+        if (!file.type.startsWith("image/")) {
+            toast.error("Enter Valid Image Format")
+            e.target.value = ""; 
+            return;
         }
+        if (file) {
+            const imageUrl = URL.createObjectURL(file)
+            console.log(imageUrl);   
+            setNewCard({ ...newCard1, image: imageUrl });
+        }
+        
     }
     //{id:"",Quote:"",description:"",attitude:"",points:"",jobs:"",activities:""}
 
     const handleChange = (e) => {
         setNewCard({ ...newCard1, [e.target.name]: e.target.value });
         console.log(newCard1);
-        
-      };
+
+    };
     const handleAddCard = () => {
-        if(index===null)
-        {
-        setCards([...cards, newCard1]);
-        setIndex(null);
+        if (index === null) {
+            setCards([...cards, newCard1]);
+            setIndex(null);
         }
-        else
-        {
-            const newCards=[...cards];
-            newCards[index]=newCard1;
+        else {
+            const newCards = [...cards];
+            newCards[index] = newCard1;
             setCards(newCards);
             setIndex(null);
         }
         nav(`/${userName}`)
     };
 
-    const handleDelete=()=>{
-        const newCards=cards.filter((_,i)=>i!==index);
+    const handleDelete = () => {
+        const newCards = cards.filter((_, i) => i !== index);
         setCards(newCards);
         setIndex(null);
         nav(`/${userName}`)
     }
 
-    const closeCard=()=>
-    {
+    const closeCard = () => {
         nav(`/${userName}`)
     }
     return (
-        <div className="card shadowp-3 d-flex">
-            <div className="image-form" style={{border:"1px solid black"}}>
-                 <img src={newCard1?.image} style={{width:"100%"}}/>{/* objectFit:"cover" */}
+        <div className="card p-3 d-flex">
+            <div className="image-form" style={{ border: "1px solid black" }}>
+                <img src={newCard1?.image} style={{ width: "100%" }} />
             </div>
-            <label htmlFor="image" className="my-3 "><span className="bg-info p-2 m-1 rounded">Edit Image</span></label>
-            <input id="image" className=" p-3 " type="file" accept="image/*" onChange={handleImage} style={{display:"none"}}/>
-            <div className="row">
-            <div className="form-container d-flex flex-column col col-6">
-            <label>Notable Quote</label>
-            <input className=" p-3 " type="text" value={newCard1?.Quote} placeholder="Enter a quote that identifies the persona" name="Quote" onChange={handleChange} />
+            <label htmlFor="image" className="my-3 image-label"><span className="bg-info p-2 m-1 rounded">Edit Image</span></label>
+            <input id="image" className=" p-3 " type="file" accept="image/*" multiple={false} onChange={handleImage} style={{ display: "none" }} />
+            <div className="row px-3 mb-2">
+                <div className="form-container d-flex flex-column col col-4">
+                    <label>Notable Quote</label>
+                    <textarea required className=" p-3 " type="text" value={newCard1?.Quote} placeholder="Enter a quote that identifies the persona" name="Quote" onChange={handleChange} />
+                </div>
+                <div className="form-container d-flex flex-column col col-4">
+                    <label>Description</label>
+                    <textarea className=" p-3 " type="text" value={newCard1?.description} placeholder="Enter a general description/bio about the persona" name="description" onChange={handleChange} />
+                </div>
+                <div className="form-container d-flex flex-column col col-4">
+                    <label>Attitude/Motivations</label>
+                    <textarea className=" p-3 " type="text" value={newCard1?.attitude} placeholder="What drives incentives the persona to reach desired goals? what mindset does the persona have?" name="attitude" onChange={handleChange} />
+                </div>
             </div>
-            <div className="form-container d-flex flex-column col col-6">
-            <label>Description</label>
-            <input className=" p-3 " type="text" value={newCard1?.description} placeholder="Enter a general description/bio about the persona" name="description" onChange={handleChange} />
+            <div className="row px-3">
+                <div className="form-container d-flex flex-column col col-4">
+                    <label>Plain Points</label>
+                    <textarea className=" p-3 " type="text" value={newCard1?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={handleChange} />
+                </div>
+
+                <div className="form-container d-flex flex-column col col-4">
+                    <label>Jobs/Needs</label>
+                    <textarea className=" p-3 " type="text" value={newCard1?.jobs} placeholder="What are the persona's functional social and emotional needs to be successful at their jobs" name="jobs" onChange={handleChange} />
+                </div>
+                <div className="form-container d-flex flex-column col col-4">
+                    <label>Activities</label>
+                    <textarea className=" p-3 " type="text" value={newCard1?.activities} placeholder="What does the persona like to do in hteir free time?" name="activities" onChange={handleChange} />
+                </div>
             </div>
-            </div>
-            <div className="row">
-            <div className="form-container d-flex flex-column col col-6">
-            <label>Attitude/Motivations</label>
-            <input className=" p-3 " type="text" value={newCard1?.attitude} placeholder="What drives incentives the persona to reach desired goals? what mindset does the persona have?" name="attitude" onChange={handleChange} />
-            </div>
-            <div className="form-container d-flex flex-column col col-6">
-            <label>Plain Points</label>
-            <input className=" p-3 " type="text" value={newCard1?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={handleChange} />
-            </div>
-            </div>
-            <div className="row">
-            <div className="form-container d-flex flex-column col col-6">
-            <label>Jobs/Needs</label>
-            <input className=" p-3 " type="text" value={newCard1?.jobs} placeholder="What are the persona's functional social and emotional needs to be successful at their jobs" name="jobs" onChange={handleChange} />
-            </div>
-            <div className="form-container d-flex flex-column col col-6">
-            <label>Activities</label>
-            <input className=" p-3 " type="text" value={newCard1?.activities} placeholder="What does the persona like to do in hteir free time?" name="activities" onChange={handleChange} />
-            </div>
-            </div>
-            <footer className="d-flex justify-content-between ms-3">
-            <button className="delete text-danger p-3 rounded m-2" onClick={handleDelete}>DELETE</button>
-            <div className="right-footer mx-3 d-flex">
-            <button onClick={closeCard} className="text-primary p-2 rounded m-1">CLOSE</button>
-            <button onClick={handleAddCard} className="bg-primary p-2 rounded m-1">UPDATE PERSONA</button>
-            </div>
+            <footer className="d-flex justify-content-between mt-2">
+                {index!==null?(<button className=" p-2 rounded ms-3 border-0 h5 text-danger" onClick={handleDelete}>DELETE</button>):(
+                    <p></p>
+                )}
+                
+                <div className="right-footer mx-3 d-flex">
+                    <button onClick={closeCard} className="rounded border-0 p-2 me-4 h5 text-info">CLOSE</button>
+                    <button type="submit" onClick={handleAddCard} className="rounded border-0 px-4 me-4 p-2 h5 bg-info text-white">{index===null?"CREATE PERSONA":"UPDATE PERSONA"}</button>
+                </div>
             </footer>
-        </div>
+        </div >
     );
 }

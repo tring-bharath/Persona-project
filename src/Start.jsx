@@ -1,8 +1,9 @@
+import img from './assets/home.png'
 export default function Start()
 {
     return(
         <>
-        <h1>start Page</h1>
+        <img src={img} style={{height:"91vh",width:"100%"}} />
         </>
     )
 }
