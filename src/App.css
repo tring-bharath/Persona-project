@@ -7,7 +7,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 .image-label
 {
-    width: 110px;
+    width: 125px;
+}
+.remove-btn
+{
+    width: 150px;
+    float: right;
+}
+textarea{
+    resize:none;
+    scrollbar-width: none;
 }
 .all
 {

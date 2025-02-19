@@ -8,6 +8,12 @@ export default function Card() {
     const nav = useNavigate();
     const handleImage = (e) => {
         const file = e.target.files[0]
+        if(file.size>5242880)
+        {
+            console.log(file.size<5,242,880);
+            toast.error("File sie Should be less than 5MB");
+            return;
+        }
         if (!file.type.startsWith("image/")) {
             toast.error("Enter Valid Image Format")
             e.target.value = ""; 
@@ -20,7 +26,7 @@ export default function Card() {
         }
         
     }
-    //{id:"",Quote:"",description:"",attitude:"",points:"",jobs:"",activities:""}
+
     const handleChange = (e) => {
         setNewCard({ ...newCard1, [e.target.name]: e.target.value });
         console.log(newCard1);
@@ -52,6 +58,13 @@ export default function Card() {
         nav(`/${userName}`)
     }
 
+    const removeImage=()=>
+    {
+        const temp=[{...newCard1}];
+        temp.image=null;
+        setNewCard(temp);
+    }
+
     const closeCard = () => {
         nav(`/${userName}`)
     }
@@ -60,7 +73,10 @@ export default function Card() {
             <div className="image-form" style={{ border: "1px solid black" }}>
                 <img src={newCard1?.image} style={{ width: "100%" }} />
             </div>
-            <label htmlFor="image" className="my-3 image-label"><span className="bg-info p-2 m-1 rounded">Edit Image</span></label>
+            <div className="image-btn d-flex">
+            <label htmlFor="image" className="my-3 image-label"><span className="bg-info p-2 m-1 rounded">{newCard1?.image?"Edit Image":"Insert Image"}</span></label>
+            <button onClick={removeImage} className="remove-btn p-2 m-2 border-0 rounded bg-danger">Remove Image</button>
+            </div>
             <input id="image" className=" p-3 " type="file" accept="image/*" multiple={false} onChange={handleImage} style={{ display: "none" }} />
             <div className="row px-3 mb-2">
                 <div className="form-container d-flex flex-column col col-4">
