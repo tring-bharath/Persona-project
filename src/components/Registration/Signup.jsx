@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { globalData } from "./App";
+import { globalData } from "../../App";
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

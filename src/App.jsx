@@ -1,13 +1,13 @@
 import { useState,useEffect,createContext } from "react";
 import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import { useForm } from "react-hook-form";
-import Login from "./Login";
-import Signup from "./Signup";
-import Start from "./Start";
-import Home from "./Home";
-import Header from "./Header";
-import Protect from "./Protect"; 
-import Card from "./Card";
+import Login from "./components/Registration/Login";
+import Signup from "./components/Registration/Signup";
+import Start from "./components/Start";
+import Home from "./components/Persona/Home";
+import Header from "./components/Header";
+import Protect from "./components/Protect";
+import Card from "./components/Persona/Card";
 import "@fontsource/poppins";
 import { ToastContainer } from "react-toastify";
 export const cardsContext=createContext();

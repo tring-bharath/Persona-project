@@ -1,4 +1,4 @@
-import img from './assets/home.png'
+import img from '../assets/home.png'
 export default function Start()
 {
     return(

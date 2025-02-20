@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import Card from "./Card";
-import './App.css'
+import '../../css/App.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate, useParams } from "react-router-dom";
-import { cardsContext } from "./App";
+import { cardsContext } from "../../App";
 export default function Home() {
 
   const nav = useNavigate();

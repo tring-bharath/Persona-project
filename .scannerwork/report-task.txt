@@ -1,0 +1,6 @@
+projectKey=persona-project-scan-1
+serverUrl=http://localhost:9000
+serverVersion=25.1.0.102122
+dashboardUrl=http://localhost:9000/dashboard?id=persona-project-scan-1
+ceTaskId=31e51cd8-87de-4d44-91de-253f4b232522
+ceTaskUrl=http://localhost:9000/api/ce/task?id=31e51cd8-87de-4d44-91de-253f4b232522

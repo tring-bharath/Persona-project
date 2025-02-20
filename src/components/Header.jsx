@@ -1,6 +1,6 @@
-import tringapps from'./assets/tringapps-copy-2.png';
+import tringapps from'../assets/tringapps-copy-2.png';
 import {Link} from 'react-router-dom'
-import { globalData } from './App';
+import { globalData } from '../App';
 import { useContext,useEffect } from 'react';
 export default function Header()
 {

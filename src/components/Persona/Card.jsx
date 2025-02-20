@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { cardsContext } from "./App";
+import { cardsContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,7 +10,6 @@ export default function Card() {
         const file = e.target.files[0]
         if(file.size>5242880)
         {
-            console.log(file.size<5,242,880);
             toast.error("File sie Should be less than 5MB");
             return;
         }
