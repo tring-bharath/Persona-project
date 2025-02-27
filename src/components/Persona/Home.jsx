@@ -7,7 +7,7 @@ import { cardsContext } from "../../App";
 export default function Home() {
 
   const nav = useNavigate();
-  const { cards, setCards,newCard1,setNewCard,index,setIndex } = useContext(cardsContext);
+  const { cards, setCards,newCard,setNewCard,index,setIndex } = useContext(cardsContext);
   
   const addNewCard = () => {
     const id = cards.length;

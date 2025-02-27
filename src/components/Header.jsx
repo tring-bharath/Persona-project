@@ -16,7 +16,7 @@ export default function Header()
                 </div>
                 ):(
                 <div className='d-flex justify-content-between  '>
-                    <p className='px-2 pt-1 text-white align-items-center h4'>{userName}</p>
+                    <p className='px-2 callout-danger pt-1 text-white align-items-center h5 align-self-center'>{userName}</p>
                     <Link to={'/'}><button className='border-0 mx-5  px-4 py-2 h5 logout h5 text-info h5 border-info p-1' onClick={()=>setUser(null)}>Logout</button></Link>
                 </div>
                 )

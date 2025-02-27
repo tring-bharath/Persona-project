@@ -16,7 +16,7 @@ export default function Signup() {
 	} = useForm();
 
 	const onSubmit = (user) => {
-		toast.success("Registered")
+		toast.success("Registered",{autoClose:1000})
 		setData(user);
 		nav("/login");
 		

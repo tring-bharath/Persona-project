@@ -28,10 +28,10 @@ export default function Login() {
         if (foundUser) {
             setData(foundUser);
             setUser(true);
-            toast.success("Login Successful")
+            toast.success("Login Successful",{autoClose:1000})
             nav(`/${foundUser.name}`);
         } else {
-            alert("Invalid email and password.");
+            toast.error("Invalid Email or Password",{autoClose:1000});
         }
     };
 
@@ -39,15 +39,15 @@ export default function Login() {
         <form className="form d-flex flex-column container col-4 p-5 mt-5 " onSubmit={handleSubmit(onSubmit)}>
             <h3 className="text-center">Login</h3>
             <label className="mt-3">Email:</label>
-            <input autocomplete="off"
-                className="form-control"
+            <input
+                className="form-control border-success"
                 type="email"
                 {...register("email")}
             />
             <p className="text-danger">{errors.email?.message}</p>
             <label>Password:</label>
-            <input  autocomplete="off"
-                className="form-control"
+            <input
+                className="form-control border-success"
                 type="password"
                 {...register("password")}
             />
