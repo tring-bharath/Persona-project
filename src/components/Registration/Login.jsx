@@ -39,18 +39,21 @@ export default function Login() {
     const onSubmit = async (user) => {
         const query = `
             query
-{
-	login(email:"${user.email}",password:"${user.password}")
-  {
-    id
-    username
-    email
-  }
-}
+            {
+            	login(email:"${user.email}",password:"${user.password}")
+                {
+                    id
+                    username
+                    email
+                  }
+            }
         `;
         try {
-            const response = await axios.get("http://localhost:1000/graphql",  {query} );
-            console.log(response.data.data.login);
+            const response = await axios.post("http://localhost:1000/graphql",  {query} );
+            setUser(true);
+            const username=response.data.data.login.username;
+            nav(`/${username}`);
+            console.log(response.data.data.login.username);
         } catch (error) {
             // console.log(response.data.data.login);
         }

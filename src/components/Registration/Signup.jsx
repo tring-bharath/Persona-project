@@ -40,6 +40,11 @@ export default function Signup() {
         const query = `
             mutation {
                 register(username: "${user.name}", email: "${user.email}", password: "${user.password}")
+				{
+					id
+					username
+					email
+				}
             }
         `;
         try {
