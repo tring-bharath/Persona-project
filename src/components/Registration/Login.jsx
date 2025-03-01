@@ -5,22 +5,23 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import * as yup from 'yup'
+import * as yup from 'yup';
+import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 export default function Login() {
     const { users, setData, setUser } = useContext(globalData);
     const nav = useNavigate();
 
-    const schema=yup.object().shape({
-        email:yup.string().email().required(),
-        password:yup.string().min(8).required()
+    const schema = yup.object().shape({
+        email: yup.string().email().required(),
+        password: yup.string().min(8).required()
     })
 
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({resolver: yupResolver(schema)});
+    } = useForm({ resolver: yupResolver(schema) });
 
     // const onSubmit = (formData) => {
     //     const foundUser = users.find(user => user.email === formData.email && user.password === formData.password);
@@ -35,28 +36,26 @@ export default function Login() {
     //     }
     // };
 
-    const onSubmit = async (data) => {
-        const query = {
-            query: `
-                query Login($email: String!, $password: String!) {
-                    login(email: $email, password: $password)
-                }
-            `,
-            variables: {
-                email: data.email,
-                password: data.password,
-            },
-        };
-    
+    const onSubmit = async (user) => {
+        const query = `
+            query
+{
+	login(email:"${user.email}",password:"${user.password}")
+  {
+    id
+    username
+    email
+  }
+}
+        `;
         try {
-            const response = await axios.post("http://localhost:4000/graphql", query);
+            const response = await axios.get("http://localhost:1000/graphql",  {query} );
             console.log(response.data.data.login);
         } catch (error) {
-            // console.error("Axios error:", error);
-            console.log("Error logging in");
+            // console.log(response.data.data.login);
         }
     };
-    
+
 
 
     return (
