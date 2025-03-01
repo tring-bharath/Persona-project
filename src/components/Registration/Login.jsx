@@ -22,18 +22,42 @@ export default function Login() {
         formState: { errors },
     } = useForm({resolver: yupResolver(schema)});
 
-    const onSubmit = (formData) => {
-        const foundUser = users.find(user => user.email === formData.email && user.password === formData.password);
+    // const onSubmit = (formData) => {
+    //     const foundUser = users.find(user => user.email === formData.email && user.password === formData.password);
 
-        if (foundUser) {
-            setData(foundUser);
-            setUser(true);
-            toast.success("Login Successful",{autoClose:1000})
-            nav(`/${foundUser.name}`);
-        } else {
-            toast.error("Invalid Email or Password",{autoClose:1000});
+    //     if (foundUser) {
+    //         setData(foundUser);
+    //         setUser(true);
+    //         toast.success("Login Successful",{autoClose:1000})
+    //         nav(`/${foundUser.name}`);
+    //     } else {
+    //         toast.error("Invalid Email or Password",{autoClose:1000});
+    //     }
+    // };
+
+    const onSubmit = async (data) => {
+        const query = {
+            query: `
+                query Login($email: String!, $password: String!) {
+                    login(email: $email, password: $password)
+                }
+            `,
+            variables: {
+                email: data.email,
+                password: data.password,
+            },
+        };
+    
+        try {
+            const response = await axios.post("http://localhost:4000/graphql", query);
+            console.log(response.data.data.login);
+        } catch (error) {
+            // console.error("Axios error:", error);
+            console.log("Error logging in");
         }
     };
+    
+
 
     return (
         <form className="form d-flex flex-column container col-4 p-5 mt-5 " onSubmit={handleSubmit(onSubmit)}>

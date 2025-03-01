@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { globalData } from "../../App";
 import { useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 export default function Signup() {
 	const { data, setData } = useContext(globalData);
@@ -15,12 +16,41 @@ export default function Signup() {
 		formState: { errors }
 	} = useForm();
 
-	const onSubmit = (user) => {
-		toast.success("Registered",{autoClose:1000})
-		setData(user);
-		nav("/login");
+	// const onSubmit = async(data) => {
+	// 	console.log(data);
 		
-	};
+	// 	toast.success("Registered",{autoClose:1000})
+    //     const query = `
+    //         mutation {
+    //             register(username: "${data.name}", email: "${data.email}", password: "${data.password}")
+    //         }
+    //     `;
+    //     try {
+    //         const response = await axios.post("http://localhost:1000/graphql", { query });
+    //         setMessage(response.data.data.register);
+    //     } catch (error) {
+    //         setMessage("Error registering user");
+    //     }
+	// 	// setData(user);
+	// 	nav("/login");
+		
+	// };
+
+	const onSubmit = async (user) => {
+        const query = `
+            mutation {
+                register(username: "${user.name}", email: "${user.email}", password: "${user.password}")
+            }
+        `;
+        try {
+            const response = await axios.post("http://localhost:1000/graphql", { query });
+			
+            console.log(response.data.data.register);
+			nav("/login");
+        } catch (error) {
+            console.log("Error registering user");
+        }
+    };
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="form d-flex flex-column container col-4 p-5 mt-5 ">
