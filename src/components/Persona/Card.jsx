@@ -1,19 +1,15 @@
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { cardsContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useForm } from "react-hook-form";
-import { Modal,Button } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; 
+import axios from "axios";
+import "react-quill/dist/quill.snow.css";
 export default function Card() {
-    const [showModal,setShowModal]=useState(false);
-    const {
-        register,
-        watch,
-        handleSubmit
-    } = useForm();
+    const [showModal, setShowModal] = useState(false);
     const { cards, setCards, userName, newCard, setNewCard, index, setIndex } = useContext(cardsContext);
     const nav = useNavigate();
     const handleImage = (e) => {
@@ -30,7 +26,6 @@ export default function Card() {
         }
         if (file) {
             const imageUrl = URL.createObjectURL(file)
-            console.log(imageUrl);
             setNewCard({ ...newCard, image: imageUrl });
         }
 
@@ -38,19 +33,51 @@ export default function Card() {
 
     const handleChange = (e) => {
         setNewCard({ ...newCard, [e.target.name]: e.target.value });
-        console.log(newCard);
-
     };
-    const handleAddCard = () => {
+
+    const handleQuill = (field, value) => {
+        setNewCard({ ...newCard, [field]: value });
+    }
+
+    const handleAddCard = async () => {
         if (newCard.quote == "" && newCard.description == "" && newCard.jobs == "" && newCard.attitude == "" && newCard.activities == "" && newCard.points == "") {
             toast.error("Fill the details");
             return;
         }
         if (index === null) {
-            setCards([...cards, newCard]);
+            const query = `
+                    mutation {
+                        addCard(quotes:"${newCard.quote}",description:"${newCard.description}",attitude:"${newCard.attitude}",points:"${newCard.points}",jobs:"${newCard.jobs}",activities:"${newCard.activities}",image:"${newCard.image}")
+                        {
+                            id
+                            quotes
+                            description
+                            attitude
+                            points
+                            jobs
+                            activities
+                            image
+                        }
+                    }
+                `;
+            try {
+                const response = await axios.post("http://localhost:1000/graphql", { query }, {
+                    headers: { "Content-Type": "application/json" },
+                });
+                console.log(response.data.data.addCard);
+                await setCards(response.data.data.addCard);
+            } catch (error) {
+                console.log(error);
+            }
+
+            
             setIndex(null);
         }
         else {
+
+            
+
+
             const newCards = [...cards];
             newCards[index] = newCard;
             setCards(newCards);
@@ -63,12 +90,30 @@ export default function Card() {
         setShowModal(true);
     }
 
-    const modalClose=()=>
-    {
+    const modalClose = () => {
         setShowModal(false);
     }
 
-    const modalDelete=()=>{
+    const modalDelete = async () => {
+        console.log(newCard.id);
+        
+        const query=`
+        mutation{
+        deleteCard(id:${newCard.id})
+        }   
+        `
+
+        try{
+            const res=await axios.post("http://localhost:1000/graphql",{query});
+            setNewCard();
+            console.log(res.data.data.deleteCard)
+        }
+        catch(err)
+        {
+            console.log(err);
+            
+        }
+
         const newCards = cards.filter((_, i) => i !== index);
         setCards(newCards);
         setIndex(null);
@@ -129,16 +174,16 @@ export default function Card() {
             <div className="row px-3">
                 <div className="form-container d-flex flex-column col col-4">
                     <label>Plain Points</label>
-                    <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={handleChange} />
+                    <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={(value) => handleQuill("points", value)} />
                 </div>
 
                 <div className="form-container d-flex flex-column col col-4">
                     <label>Jobs/Needs</label>
-                    <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.jobs} placeholder="What are the persona's functional social and emotional needs to be successful at their jobs" name="jobs" onChange={handleChange} />
+                    <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.jobs} placeholder="What are the persona's functional social and emotional needs to be successful at their jobs" name="jobs" onChange={(value) => handleQuill("jobs", value)} />
                 </div>
                 <div className="form-container d-flex flex-column col col-4">
                     <label>Activities</label>
-                    <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.activities} placeholder="What does the persona like to do in their free time?" name="activities" onChange={handleChange} />
+                    <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.activities} placeholder="What does the persona like to do in their free time?" name="activities" onChange={(value) => handleQuill("activities", value)} />
                 </div>
             </div>
             <footer className="d-flex justify-content-between mt-5">

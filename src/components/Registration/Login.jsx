@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 export default function Login() {
-    const { users, setData, setUser } = useContext(globalData);
+    const { users, setData, setUser,setUsername } = useContext(globalData);
     const nav = useNavigate();
 
     const schema = yup.object().shape({
@@ -50,12 +50,13 @@ export default function Login() {
         `;
         try {
             const response = await axios.post("http://localhost:1000/graphql",  {query} );
-            setUser(true);
             const username=response.data.data.login.username;
+            setUsername(username);
             nav(`/${username}`);
             console.log(response.data.data.login.username);
+            setUser(true);
         } catch (error) {
-            // console.log(response.data.data.login);
+            console.log(error);
         }
     };
 

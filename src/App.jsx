@@ -27,7 +27,7 @@ export default function App()
   },[data])
   return(
     <div className="all">
-    <globalData.Provider value={{data,setData,userName,user,setUser,users,setUsers}}>
+    <globalData.Provider value={{data,setData,userName,user,setUser,users,setUsers,setUsername}}>
     <cardsContext.Provider value={{cards,setCards,userName,newCard,setNewCard,index,setIndex}}>
     <BrowserRouter>
     <Header/>

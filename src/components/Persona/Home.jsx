@@ -11,15 +11,16 @@ export default function Home() {
   
   const addNewCard = () => {
     const id = cards.length;
+    setIndex(null);
     setNewCard();//{id:"",Quote:"",description:"",attitude:"",points:"",jobs:"",activities:""}
     nav(`card${id}`);
   };
 
-  const editCard=(i)=>
+  const editCard=(cardId,card)=>
   {
-    setNewCard(cards[i]);
-    setIndex(i);
-    nav( `card${i}`)
+    setNewCard(card);
+    setIndex(1);
+    nav( `card${cardId}`)
   }
 
   return (
@@ -30,7 +31,7 @@ export default function Home() {
       </button>
       <div className="row">
         {cards.map((card,i) => (
-          <div key={i} className="cards" onClick={()=>editCard(i)}>
+          <div key={i} className="cards" onClick={()=>editCard(card.id,card)}>
             <img src={card.image} style={{ width: "300px", height: "200px" }} />
             <h5 className="card-title text-center m-2">{card.Quote}</h5>
             <p className="card-text px-2">{card.description}</p>
