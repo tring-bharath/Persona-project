@@ -20,6 +20,7 @@ export default function App()
   const [newCard,setNewCard]=useState([{id:"",Quote:"",description:"",attitude:"",points:"",jobs:"",activities:""}]);
   const [userName,setUsername]=useState();
   const [index,setIndex]=useState(null);
+  const url="http://localhost:1000/graphql";
   useEffect(()=>
   {
     setUsername(data.name);
@@ -27,8 +28,8 @@ export default function App()
   },[data])
   return(
     <div className="all">
-    <globalData.Provider value={{data,setData,userName,user,setUser,users,setUsers,setUsername}}>
-    <cardsContext.Provider value={{cards,setCards,userName,newCard,setNewCard,index,setIndex}}>
+    <globalData.Provider value={{data,setData,userName,user,setUser,users,setUsers,setUsername,url}}>
+    <cardsContext.Provider value={{cards,setCards,userName,newCard,setNewCard,index,setIndex,url}}>
     <BrowserRouter>
     <Header/>
     <ToastContainer/>

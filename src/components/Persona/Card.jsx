@@ -10,7 +10,7 @@ import axios from "axios";
 import "react-quill/dist/quill.snow.css";
 export default function Card() {
     const [showModal, setShowModal] = useState(false);
-    const { cards, setCards, userName, newCard, setNewCard, index, setIndex } = useContext(cardsContext);
+    const { cards, setCards, userName, newCard, setNewCard, index, setIndex,url } = useContext(cardsContext);
     const nav = useNavigate();
     const handleImage = (e) => {
         const file = e.target.files[0]
@@ -36,21 +36,25 @@ export default function Card() {
     };
 
     const handleQuill = (field, value) => {
-        setNewCard({ ...newCard, [field]: value });
-    }
+        setNewCard((prevCard) => ({
+            ...prevCard,
+            [field]: value,
+        }));
+    };
+    
 
     const handleAddCard = async () => {
-        if (newCard.quote == "" && newCard.description == "" && newCard.jobs == "" && newCard.attitude == "" && newCard.activities == "" && newCard.points == "") {
+        if (newCard==null) {
             toast.error("Fill the details");
             return;
         }
         if (index === null) {
             const query = `
                     mutation {
-                        addCard(quotes:"${newCard.quote}",description:"${newCard.description}",attitude:"${newCard.attitude}",points:"${newCard.points}",jobs:"${newCard.jobs}",activities:"${newCard.activities}",image:"${newCard.image}")
+                        addCard(quote:"${newCard.quote}",description:"${newCard.description}",attitude:"${newCard.attitude}",points:"${newCard.points}",jobs:"${newCard.jobs}",activities:"${newCard.activities}",image:"${newCard.image}")
                         {
                             id
-                            quotes
+                            quote
                             description
                             attitude
                             points
@@ -61,10 +65,10 @@ export default function Card() {
                     }
                 `;
             try {
-                const response = await axios.post("http://localhost:1000/graphql", { query }, {
+                const response = await axios.post(url, { query }, {
                     headers: { "Content-Type": "application/json" },
                 });
-                console.log(response.data.data.addCard);
+                console.log(response);
                 await setCards(response.data.data.addCard);
             } catch (error) {
                 console.log(error);
@@ -75,12 +79,31 @@ export default function Card() {
         }
         else {
 
+            const query= `
+                mutation
+                {
+                    updateCard(id:${newCard.id},quote:"${newCard.quote}",description:"${newCard.description}",attitude:"${newCard.attitude}",points:"${newCard.points}",jobs:"${newCard.jobs}",activities:"${newCard.activities}",image:"${newCard.image}")
+                    {
+                        id
+                        quote
+                        description
+                        attitude
+                        points
+                        jobs
+                        activities
+                        image
+                    }
+                }
+            `
+            const res=await axios.post(url,{query});
+
+            console.log(res.data.data.updateCard);
             
+            setCards(res.data.data.updateCard);
 
-
-            const newCards = [...cards];
-            newCards[index] = newCard;
-            setCards(newCards);
+            // const newCards = [...cards];
+            // newCards[index] = newCard;
+            // setCards(newCards);
             setIndex(null);
         }
         nav(`/${userName}`)
@@ -100,12 +123,23 @@ export default function Card() {
         const query=`
         mutation{
         deleteCard(id:${newCard.id})
+        {
+            id
+            quote
+            description
+            attitude
+            points
+            jobs
+            activities
+            image            
+        }
         }   
         `
 
         try{
-            const res=await axios.post("http://localhost:1000/graphql",{query});
+            const res=await axios.post(url,{query});
             setNewCard();
+            setCards(res.data.data.deleteCard)
             console.log(res.data.data.deleteCard)
         }
         catch(err)
@@ -114,8 +148,8 @@ export default function Card() {
             
         }
 
-        const newCards = cards.filter((_, i) => i !== index);
-        setCards(newCards);
+        // const newCards = cards.filter((_, i) => i !== index);
+        // setCards(newCards);
         setIndex(null);
         nav(`/${userName}`)
     }
@@ -159,7 +193,7 @@ export default function Card() {
             <div className="row px-3 mb-2">
                 <div className="form-container d-flex flex-column col col-4">
                     <label>Notable Quote</label>
-                    <textarea required className=" p-3 " type="text" value={newCard?.Quote} placeholder="Enter a quote that identifies the persona" name="Quote" onChange={handleChange} />
+                    <textarea required className=" p-3 " type="text" value={newCard?.quote} placeholder="Enter a quote that identifies the persona" name="quote" onChange={handleChange} />
                 </div>
                 <div className="form-container d-flex flex-column col col-4">
                     <label>Description</label>
@@ -173,7 +207,7 @@ export default function Card() {
             {/* <ReactQuill  /> */}
             <div className="row px-3">
                 <div className="form-container d-flex flex-column col col-4">
-                    <label>Plain Points</label>
+                    <label>Pain Points</label>
                     <ReactQuill className=" p-3 border-0 " type="text" value={newCard?.points} placeholder="What are the biggest challenges that the persona faces in their job?" name="points" onChange={(value) => handleQuill("points", value)} />
                 </div>
 

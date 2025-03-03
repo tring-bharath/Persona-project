@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 export default function Signup() {
-	const { data, setData } = useContext(globalData);
+	const { data, setData,url } = useContext(globalData);
 	const nav = useNavigate();
 
 	const {
@@ -48,7 +48,7 @@ export default function Signup() {
             }
         `;
         try {
-            const response = await axios.post("http://localhost:1000/graphql", { query });
+            const response = await axios.post(url, { query });
 			
             console.log(response.data.data.register);
 			nav("/login");

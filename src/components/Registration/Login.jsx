@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import axios from "axios";
 import { yupResolver } from "@hookform/resolvers/yup";
 export default function Login() {
-    const { users, setData, setUser,setUsername } = useContext(globalData);
+    const { users, setData, setUser,setUsername,url } = useContext(globalData);
     const nav = useNavigate();
 
     const schema = yup.object().shape({
@@ -41,16 +41,25 @@ export default function Login() {
             query
             {
             	login(email:"${user.email}",password:"${user.password}")
-                {
-                    id
-                    username
-                    email
-                  }
             }
         `;
         try {
-            const response = await axios.post("http://localhost:1000/graphql",  {query} );
-            const username=response.data.data.login.username;
+            const response = await axios.post(url,  {query} );
+
+            const username=response.data.data.login;
+
+            if(username=="InvalidCredentials")
+            {
+                // errors.password.message="Wrong Password"
+                toast.error("Invalid Credentials");
+                return;
+            }
+            if(username=="UserNotFound")
+            {
+                // errors.email.message="Email not registered"
+                toast.error("Email address not registered");
+                return;
+            }
             setUsername(username);
             nav(`/${username}`);
             console.log(response.data.data.login.username);

@@ -7,7 +7,7 @@ import { cardsContext } from "../../App";
 export default function Home() {
 
   const nav = useNavigate();
-  const { cards, setCards,newCard,setNewCard,index,setIndex } = useContext(cardsContext);
+  const { cards, setCards,newCard,setNewCard,index,setIndex,url } = useContext(cardsContext);
   
   const addNewCard = () => {
     const id = cards.length;
@@ -33,7 +33,7 @@ export default function Home() {
         {cards.map((card,i) => (
           <div key={i} className="cards" onClick={()=>editCard(card.id,card)}>
             <img src={card.image} style={{ width: "300px", height: "200px" }} />
-            <h5 className="card-title text-center m-2">{card.Quote}</h5>
+            <h5 className="card-title text-center m-2">{card.quote}</h5>
             <p className="card-text px-2">{card.description}</p>
           </div>
         ))}
